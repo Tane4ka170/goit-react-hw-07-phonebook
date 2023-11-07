@@ -1,11 +1,12 @@
 import React from 'react';
 import s from './Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterContacts, getFilter } from 'redux/sliseFilter';
+import { filterContacts } from 'redux/sliseFilter';
+import { selectFilter } from 'redux/selectors';
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectFilter);
   return (
     <>
       <p className={s.title}>Find contacts by name</p>

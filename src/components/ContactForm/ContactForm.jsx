@@ -1,11 +1,14 @@
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, getContacts } from '../../redux/sliceContact';
+
 import { nanoid } from '@reduxjs/toolkit';
+import { addContactThunk } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -13,7 +16,7 @@ const ContactForm = () => {
     const contact = {
       id: nanoid(),
       name: event.currentTarget.elements.name.value,
-      number: event.currentTarget.elements.number.value,
+      phone: event.currentTarget.elements.phone.value,
     };
 
     const isExist = contacts.find(
@@ -21,10 +24,10 @@ const ContactForm = () => {
     );
 
     if (isExist) {
-      return alert(`${contact.name} is already in contacts.`);
+      return toast.warn(`${contact.name} is already in contacts.`);
     }
 
-    dispatch(addContact(contact));
+    dispatch(addContactThunk(contact));
     event.currentTarget.reset();
   };
 
@@ -45,7 +48,7 @@ const ContactForm = () => {
         <input
           className={s.input}
           type="tel"
-          name="number"
+          name="phone"
           placeholder="Phone Number"
           required
         />
